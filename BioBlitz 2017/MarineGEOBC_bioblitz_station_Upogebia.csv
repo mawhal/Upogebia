@@ -1,0 +1,7 @@
+eventID,locality,decimalLatitude,decimalLongitude,coordinateUncertaintyInMeters,geoReferenceProtocol,year,month,day,maximumDepthInMeters,minimumDepthInMeters,recordedBy,samplingProtocol,HabitatPhysiographicSetting,HabitatGeoform,HabitatSubstrate,HabitatBiotic,eventTime,verbatimCoordinates,eventMedia,eventRemarks
+SHAK02,"Piles Beach/Telis Tower, cobble/mud, extra high 4.0 - 3.0 m",51.64302,-128.08699,,Handheld GPS,2017,7,23,,,Dudas Sarah,Hand collecting,Bay,Beach ,Cobble,Unclassified,,,,
+SHAK03,"Piles Beach/Telis Tower, mud,  high zone 3.0 - 2.2 m",51.64291,-128.08701,,Handheld GPS,2017,7,23,,,Dudas Sarah,Hand collecting,Bay,Beach ,Mud,Unclassified,,,,
+SHAK04,"Piles Beach/Telis Tower, mud/sand, mid zone 2.2 - 1.5 m",51.64313,-128.08563,,Handheld GPS,2017,7,23,,,Dudas Sarah,Hand collecting,Bay,Flat,Mud,Unclassified,,,,
+SHAK16,"HCGR Beach, rocky intertidal, high  3.0-2.2 m, cobble",51.64258,-128.07816,,,2017,7,25,,,Dudas Sarah | soft sediment team,Hand collecting,Bay,Rock Outcrop,Cobble,Unclassified,,,,
+IHAK13,Pruth Lagoon,51.65697288,-128.1307444,,,2017,7,27,,,Paulay Gustav,Hand collecting,Lagoon,Inlet,Silt,Emergent Tidal Marsh,,,,sea asparagus / Salicornia
+IHAK72,Pruth Lagoon,51.65677996,-128.1305268,,iPad (collector),2017,8,8,,,Radashevsky Vasily,Hand Collecting,Lagoonal Estuary,Inlet,Gravel,Benthic Macroalgae,,,,
