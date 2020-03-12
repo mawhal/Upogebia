@@ -108,7 +108,10 @@ mistake <- which(with( d, pf < pm ))
 d$pf[ mistake ] <- 1
 d$pm[ mistake ] <- 0
 # 
+# how many infested shrimp are smaller than 12 mm?
+with( calvert, table( len.cara, pf) )
 
+#
 ## -------------------
 # Table 1 - sampling dates, location, prevalence
 tab1 <- d %>% 
@@ -128,7 +131,7 @@ tabround <- tab %>% mutate(host.length=round(host.length,2),
                              prevalence=round(prevalence,2),
                            host.length.big=round(host.length.big,2), 
                            prev.big=round(prev.big,2))
-formattable(tabround)
+formattable::formattable(tabround)
 write_csv(tabround,"Table1.csv")
 ## -------------------
 
@@ -155,6 +158,54 @@ d.stats2 <- d %>%
   group_by(location,site.type) %>%
   mutate( total=sum(n)) %>%
   filter(pf==1)
+
+# simple model
+lm1 <- glmer( pf ~ 1 + (1|date), data=calvert, family=binomial )
+summary(lm1)
+intervals1 <- c(fixef(lm1),confint(lm1,parm="beta_"))
+psych::logistic(intervals1)
+psych::logistic(coef(lm1)$date)
+
+# all data
+lm2 <- glmer( pf ~ location + (1|date), data=d, family=binomial )
+summary(lm2)
+intervals2 <- c(fixef(lm2),confint(lm2,parm="beta_"))
+psych::logistic(intervals)
+psych::logistic(coef(lm2)$date)
+
+# Baynes
+lm3 <- glmer( pf ~ 1 + (1|date), data=d4, family=binomial )
+summary(lm3)
+intervals3 <- c(fixef(lm3),confint(lm3,parm="beta_"))
+psych::logistic(intervals3)
+psych::logistic(coef(lm3)$date)
+
+# repeat with data filtered by size
+lm4 <- glmer( pf ~ 1 + (1|date), data=filter(calvert,len.cara>=10.6), family=binomial )
+summary(lm4)
+intervals4 <- c(fixef(lm4),confint(lm4,parm="beta_"))
+psych::logistic(intervals)
+psych::logistic(coef(lm4)$date)
+
+# Baynes
+lm5 <- glmer( pf ~ 1 + (1|date), data=filter(d4,len.cara>=10.6), family=binomial )
+summary(lm5)
+intervals5 <- c(fixef(lm5),confint(lm5,parm="beta_"))
+psych::logistic(intervals5)
+psych::logistic(coef(lm5)$date)
+
+# put together the table
+alldates <- list( psych::logistic(coef(lm1)$date), psych::logistic(coef(lm3)$date), psych::logistic(coef(lm4)$date), psych::logistic(coef(lm5)$date) )
+adddates <- lapply( alldates, function(z) {
+  z$date=rownames(z)
+  return(z)
+  })
+small <- bind_rows( adddates[1:2] )
+big <- bind_rows( adddates[3:4] )
+prevs <- full_join( small, big, by="date" )
+
+write_csv( full_join( tabround,  prevs ), "Table1.csv" )
+
 
 windows(3.5,3.5)
 ggplot(d.stats, aes(x=location,y=p,col=site.type)) + geom_point(pch=1,size=3.5) +
@@ -204,6 +255,7 @@ size.cat <- ggplot( calvert, aes(x=as.factor(parasite.category),y=len.cara)) + #
   theme_classic() + 
   ylab( "Host carapace\nlength (mm)") + xlab( "Parasite load" )
 calvert$parasite.category <- factor(calvert$parasite.category)
+with(calvert, table(parasite.category, date))
 a1 <- aov( len.cara ~ (parasite.category), data=calvert )
 anova(lm( len.cara ~ (parasite.category), data=calvert ))
 summary(lm( len.cara ~ (parasite.category), data=calvert ))
@@ -226,13 +278,33 @@ ggplot( data=d, aes(x=len.cara,y=pf,fill=location) ) +
 labels <- format( sort(unique(d123$date)), "%d %b %Y"  )
 names(labels) <- sort(unique(d123$date))
 windows(4,4)
-ggplot( data=d123, aes(x=len.cara,y=pf) ) + facet_wrap(~date, labeller=labeller(date=labels)) +
-  geom_vline( linetype=2,xintercept=12 ) +
-  geom_smooth( method='glm', method.args = list(family=quasibinomial),
+ggplot( data=d123, aes(x=len.cara,y=pf) ) + facet_wrap(~date) +#, labeller=labeller(date=labels)) +
+  geom_vline( linetype=2,xintercept=10.6 ) +
+  geom_smooth( method='glm', method.args = list(family=binomial),
                col = 'black', size=0.5 ) +
   geom_point( col='slateblue', size = 3, alpha=0.3 ) +
   ylab( "Parasite prevalence" ) + xlab( "Shrimp carapace length (mm)" ) +
   theme_classic() + xlim(c(0,max(d$len.cara)))
+# tidy broom for individual fits?
+Orange %>% 
+  nest(-Tree) %>% 
+  mutate(
+    test = map(data, ~ cor.test(.x$age, .x$circumference)), # S3 list-col
+    tidied = map(test, tidy)
+  ) %>% 
+  unnest(tidied, .drop = TRUE)
+library(broom)
+library(tidyr)
+calvert %>% 
+  nest(-date) %>% 
+  mutate(
+    fit = map(data, ~ lm(pf ~ len.cara, data=.x)),
+    tidied = map(fit, tidy) ) %>% 
+  unnest(tidied, .drop=TRUE)
+      
+  )
+  
+
 
 # 2018-07-29 sampling was on eastern side of Pruth Bay (watershed 626, soft sed site PBE)
 # sampling done by rolling boulders and hand-retrieving shrimp
@@ -289,6 +361,8 @@ summary(glm4)
 # date matters, how does it influence parameter estimates when treated as a random effect?
 glmer1 <- glmer( pf ~ len.cara + (1|date), data=calvert, family=binomial )
 summary(glmer1)
+glmer2 <- glmer( pf ~ len.cara + (len.cara|date), data=calvert, family=binomial )
+summary(glmer2)
 glmer0 <- glmer( pf ~ 1 +(1|date), data=calvert, family=binomial )
 anova( glmer0, glmer1 )
 AICctab( glmer0, glmer1, nobs=nrow(calvert) )
@@ -324,7 +398,7 @@ predictions <- with(predictions, data.frame(predictions,
 
 # plot 
 len.pred <- ggplot( data=calvert, aes(x=len.cara,y=pf) ) +
-  geom_vline( linetype=3,xintercept=12 ) +
+  # geom_vline( linetype=3,xintercept=12 ) +
   geom_point( col='slategrey', size = 3, alpha=0.3 ) +
   geom_line(  data=predictions, aes(x=len.cara,y=mean.1) ) +
   geom_line(  data=predictions, aes(x=len.cara,y=p1.lo), lty=2 ) +
