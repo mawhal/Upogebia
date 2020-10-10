@@ -75,7 +75,7 @@ for( i in 1:nrow(d4) ){
 }
 d4$pf <- fmmat[,1]
 d4$pm <- fmmat[,2]
-
+# PRESENCE OF TWO OUTLIERS - two shrimp with parasites that are clearly too small to have parasites
 
 ## ----------------------------------------------------------------------------------------------------------------------
 ## Combine these datasets
@@ -110,6 +110,11 @@ d$pm[ mistake ] <- 0
 # 
 # how many infested shrimp are smaller than 12 mm?
 with( calvert, table( len.cara, pf) )
+with( d4, table( len.cara, pf) )
+# what are the smallest parasitized hosts at each location, in each survey?
+d %>% group_by(location) %>% mutate( len.min = min( len.cara[pf==1], na.rm=T ) )
+d <- d %>% group_by(site) %>% mutate( len.min = min( len.cara[pf==1], na.rm=T ) )
+d$len.min[ d$len.min > 12 ] <- 12
 
 #
 ## -------------------
@@ -118,21 +123,34 @@ tab1 <- d %>%
   mutate( site.type=recode(site.type, "Reference Site"="No Aquaculture") ) %>% 
   group_by( location,date,site,site.type ) %>% 
   summarize( hosts=length(pf), host.length=mean(len.cara,na.rm=T), 
+             infested=sum(pf),
              prevalence=sum(pf)/length(pf) )
-# add 
+# add prevalence in larger (presumably adult) hosts
+# get 
 tab2 <- d %>% 
-  filter( len.cara > 11) %>% 
+  filter( len.cara >= 10.6 | is.na(len.cara) ) %>% 
   mutate( site.type=recode(site.type, "Reference Site"="No Aquaculture") ) %>% 
   group_by( location,date,site,site.type ) %>% 
   summarize( hosts.big=length(pf), host.length.big=mean(len.cara,na.rm=T), 
+             infest.big=sum(pf),
              prev.big=sum(pf)/length(pf) )
-tab <- left_join(tab1,tab2)
-tabround <- tab %>% mutate(host.length=round(host.length,2), 
+tab3 <- d %>% 
+  group_by( site ) %>% 
+  filter( len.cara >= len.min | is.na(len.cara) ) %>% 
+  mutate( site.type=recode(site.type, "Reference Site"="No Aquaculture") ) %>% 
+  group_by( location,date,site,site.type ) %>% 
+  summarize( hosts.big=length(pf), host.length.big=mean(len.cara,na.rm=T), 
+             infest.big=sum(pf),
+             prev.big=sum(pf)/length(pf) )
+# tab <- left_join(tab1,tab2)
+tab <- left_join(tab1,tab3)
+tabround <- tab %>% ungroup() %>% mutate(host.length=round(host.length,2), 
                              prevalence=round(prevalence,2),
                            host.length.big=round(host.length.big,2), 
-                           prev.big=round(prev.big,2))
-formattable::formattable(tabround)
-write_csv(tabround,"Table1.csv")
+                           prev.big=round(prev.big,2)) %>% 
+  select( location, date, site.type, hosts, hosts.big, 
+          host.length, host.length.big, infested, infest.big, prevalence, prev.big ) %>% 
+  arrange( rev(location), (date) )
 ## -------------------
 
 
@@ -165,6 +183,8 @@ summary(lm1)
 intervals1 <- c(fixef(lm1),confint(lm1,parm="beta_"))
 psych::logistic(intervals1)
 psych::logistic(coef(lm1)$date)
+# windows(4,3)
+lattice::dotplot( ranef(lm1), main = F )
 
 # all data
 lm2 <- glmer( pf ~ location + (1|date), data=d, family=binomial )
@@ -174,25 +194,37 @@ psych::logistic(intervals)
 psych::logistic(coef(lm2)$date)
 
 # Baynes
+d4test <- d4
+d4test$pf[d4test$date=="2016-07-21"] <- 1
 lm3 <- glmer( pf ~ 1 + (1|date), data=d4, family=binomial )
 summary(lm3)
 intervals3 <- c(fixef(lm3),confint(lm3,parm="beta_"))
 psych::logistic(intervals3)
 psych::logistic(coef(lm3)$date)
 
+
 # repeat with data filtered by size
 lm4 <- glmer( pf ~ 1 + (1|date), data=filter(calvert,len.cara>=10.6), family=binomial )
 summary(lm4)
 intervals4 <- c(fixef(lm4),confint(lm4,parm="beta_"))
-psych::logistic(intervals)
+psych::logistic(intervals4)
 psych::logistic(coef(lm4)$date)
 
 # Baynes
-lm5 <- glmer( pf ~ 1 + (1|date), data=filter(d4,len.cara>=10.6), family=binomial )
+group_by( site ) %>% 
+  filter( len.cara >= len.min | is.na(len.cara) )
+baynesbig <- d %>% 
+  filter( location == "Baynes Sound") %>% 
+  filter(len.cara >= len.min | is.na(len.cara))
+lm5 <- glmer( pf ~ 1 + (1|date), data=baynesbig, family=binomial )
 summary(lm5)
 intervals5 <- c(fixef(lm5),confint(lm5,parm="beta_"))
 psych::logistic(intervals5)
 psych::logistic(coef(lm5)$date)
+
+# windows(4,3)
+# dotplot( ranef(lm5), main = F )
+# dotplot( ranef(lm4), main = F )
 
 # put together the table
 alldates <- list( psych::logistic(coef(lm1)$date), psych::logistic(coef(lm3)$date), psych::logistic(coef(lm4)$date), psych::logistic(coef(lm5)$date) )
@@ -204,7 +236,10 @@ small <- bind_rows( adddates[1:2] )
 big <- bind_rows( adddates[3:4] )
 prevs <- full_join( small, big, by="date" )
 
-write_csv( full_join( tabround,  prevs ), "Table1.csv" )
+table1 <- full_join( tabround,  prevs )  
+  
+
+write_csv( table1, "Tables/Table1_revision2.csv" )
 
 
 windows(3.5,3.5)
@@ -246,7 +281,16 @@ stack <- ggplot( pdf, aes(x=lower,y=Freq,fill=pf)) + geom_bar(stat="identity",co
   theme_classic() + theme(legend.justification=c(1,1), legend.position=c(1,1)) +
   theme( panel.grid.major = element_line() )
 stack
+
 # anova style of parasitized category with test
+# calvert.scope <- calvert %>% filter( date %in% c("2018-08-14","2019-01-19") )
+calvert$parasite.category <- factor(calvert.scope$parasite.category)
+with(calvert, table(parasite.category, date))
+a1 <- aov( len.cara ~ (parasite.category), data=calvert )
+anova(lm( len.cara ~ (parasite.category), data=calvert ))
+summary(lm( len.cara ~ (parasite.category), data=calvert ))
+TukeyHSD( a1 )
+
 size.cat <- ggplot( calvert, aes(x=as.factor(parasite.category),y=len.cara)) + #geom_point(col='slateblue',alpha=0.5) +
   stat_summary( fun.data = "mean_cl_boot", colour = "black", size = 1.5)  + 
   annotate( "text", label = "A", x = 1, y = 15.25, size=5) +
@@ -254,12 +298,7 @@ size.cat <- ggplot( calvert, aes(x=as.factor(parasite.category),y=len.cara)) + #
   annotate( "text", label = "B", x = 3, y = 21, size=5) +
   theme_classic() + 
   ylab( "Host carapace\nlength (mm)") + xlab( "Parasite load" )
-calvert$parasite.category <- factor(calvert$parasite.category)
-with(calvert, table(parasite.category, date))
-a1 <- aov( len.cara ~ (parasite.category), data=calvert )
-anova(lm( len.cara ~ (parasite.category), data=calvert ))
-summary(lm( len.cara ~ (parasite.category), data=calvert ))
-TukeyHSD( a1 )
+
 windows( 4.5, 4.5 )
 plot_grid( stack, size.cat, ncol=1, labels = "AUTO", align="b" )
 
@@ -285,6 +324,7 @@ ggplot( data=d123, aes(x=len.cara,y=pf) ) + facet_wrap(~date) +#, labeller=label
   geom_point( col='slateblue', size = 3, alpha=0.3 ) +
   ylab( "Parasite prevalence" ) + xlab( "Shrimp carapace length (mm)" ) +
   theme_classic() + xlim(c(0,max(d$len.cara)))
+ggsave( "Figs/FigureS1.tiff", dpi=300 )
 # tidy broom for individual fits?
 Orange %>% 
   nest(-Tree) %>% 
@@ -320,24 +360,27 @@ by( d3, d3$sex, function(z) sum(z$pf)/length(z$pf) )
 by( d123, d123$sex, function(z) sum(z$pf)/length(z$pf) )
 
 
-
+# model for prevalence by host sex
 dsex <- d123 %>% 
-  filter( !is.na(sex) ) %>% 
+  filter( !is.na(sex), len.cara >= 10.6 ) %>% 
   mutate( sex=factor(sex) )
-
+by( dsex, dsex$sex, function(z) sum(z$pf)/length(z$pf) )
 glmer.sex <- glmer( pf ~ sex + (1|date), data=dsex, family=binomial )
 summary(glmer.sex)
-glm.sex <- glm( pf ~ sex + date, data=dsex, family=quasibinomial )
+psych::logistic(unique(predict(glmer.sex)))
+glm.sex <- glm( pf ~ sex, data=dsex, family=binomial )
 summary(glm.sex)
-
-
+psych::logistic(coef(glm.sex))
+logistic(unique(predict(glm.sex)))
 ##### MODELS
 
 # model comparing parasite presence on Calvert and Vancouver Island
-d$site.type <- factor(d$site.type)
-d$baynes.com <- factor(with(d, paste(location,site.type) ))
-d$baynes.com <- relevel( d$baynes.com, ref = "Calvert Island No aquaculture" )
-glmer.site <- glmer( pf ~ baynes.com + (1|date), data=d, family='binomial' )
+# select susceptible hosts
+dsusc <- d %>% filter( len.cara >= len.min | is.na(len.cara) )
+dsusc$site.type <- factor(dsusc$site.type)
+dsusc$baynes.com <- factor(with(dsusc, paste(location,site.type) ))
+dsusc$baynes.com <- relevel( dsusc$baynes.com, ref = "Calvert Island No aquaculture" )
+glmer.site <- glmer( pf ~ baynes.com + (1|date), data=dsusc, family='binomial' )
 summary(glmer.site)
 
 # a model of prevalence by size
@@ -419,6 +462,7 @@ plot_grid( stack, size.cat, len.pred, ncol=1, align="hv", labels="auto")
 
 windows(5,5)
 bottomrow <- plot_grid( size.cat, len.pred, ncol=2, align="hv", labels=c("b","c"))
-plot_grid( stack, bottomrow, ncol=1,  labels = c("a",""))
-
+x <- plot_grid( stack, bottomrow, ncol=1,  labels = c("a",""))
+# ggsave( "Figs/Figure03.tiff", width=5, height=5, plot = x, dpi=600 )
+# ggsave( "Figs/Figure03.svg", width=5, height=5, plot = x, dpi=600 )
 

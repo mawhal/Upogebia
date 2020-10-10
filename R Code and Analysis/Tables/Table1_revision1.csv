@@ -1,0 +1,11 @@
+location,date,site,site.type,hosts,host.length,prevalence,hosts.big,host.length.big,prev.big
+Calvert Island,2018-07-29,Pruth Bay,No aquaculture,25,14.68,0.44,21,15.77,0.52
+Calvert Island,2018-08-02,Pruth Bay,No aquaculture,95,13.88,0.2,81,14.67,0.23
+Calvert Island,2018-08-14,Pruth Bay,No aquaculture,47,17.7,0.21,45,18.11,0.22
+Calvert Island,2019-01-19,Pruth Bay,No aquaculture,63,14.4,0.13,46,16.84,0.15
+Baynes Sound,2016-07-18,TranRef,No aquaculture,5,7.74,0.4,2,11.85,1
+Baynes Sound,2016-07-19,Reid,Shellfish farm,10,9.75,0.3,5,12.9,0.4
+Baynes Sound,2016-07-20,Taylor Shellfish,Shellfish farm,36,7.55,0.06,6,15.8,0.33
+Baynes Sound,2016-07-21,Deep Bay Reference,No aquaculture,1,6,0,NA,NA,NA
+Baynes Sound,2016-07-22,NOT,No aquaculture,56,7.77,0.02,13,13.11,0
+Baynes Sound,2018-07-17,Tran Shellfish,Shellfish farm,7,12.7,0.57,4,15.22,0.75
