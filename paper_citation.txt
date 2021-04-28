@@ -1,0 +1,27 @@
+citation = Whalen, M., B. Millard-Martin, K. Cox, M. Lemay, and G. Paulay. 2020. Poleward range expansion of invasive bopyrid isopod, Orthione griffenis Markham, 2004, confirmed by establishment in Central British Columbia, Canada. BioInvasions Records 9:538–548.
+
+doi =  10.3391/bir.2020.9.3.09
+
+issue weblink = https://www.reabic.net/journals/bir/2020/Issue3.aspx
+
+paper weblink = https://www.reabic.net/journals/bir/2020/3/BIR_2020_Whalen_etal.pdf
+
+
+
+bibtex item
+
+@article{whalen_poleward_2020,
+	title = {Poleward range expansion of invasive bopyrid isopod, {Orthione} griffenis {Markham}, 2004, confirmed by establishment in {Central} {British} {Columbia}, {Canada}},
+	volume = {9},
+	issn = {22421300},
+	url = {https://www.reabic.net/journals/bir/2020/Issue3.aspx},
+	doi = {10.3391/bir.2020.9.3.09},
+	abstract = {Dispersal of parasites into novel host populations is often initiated by human activities at global scales, but largely determined by parasite and host life history traits at local scales. In summer 2017, we discovered the parasitic bopyrid isopod, Orthione griffenis Markham, 2004, in a population of mud shrimp, Upogebia pugettensis (Dana, 1852), in Central British Columbia, Canada. This parasite has infested most host populations along the Pacific coast of North America to the south. We estimated that 25\% of susceptible hosts on Calvert Island were parasitized during summer 2018 and winter 2019. Steady infestation of mud shrimp on Calvert Island confirmed that the invasive bopyrid has successfully established itself in a novel host population 300 km further north than previously recorded, but with lower parasite prevalence than in the known invasive range, where heavy infestations have been implicated in host population declines. Prevalence rates increased with host size as previously documented, with a minimum infestation size of 10.6 mm carapace length. The parasite has a planktonic larval phase, suggesting that its spread along the coast is not limited to transport via boat traffic. The prognosis for the persistence of Upogebia in Canada and further north is unclear, but population declines further south in the presence of O. griffenis provide a troubling outlook. As biodiversity monitoring efforts continue in this region, tracking the spread of parasites like O. griffenis and their impacts on host populations will yield new insights into the traits that make invasive species successful and the ecosystem consequences of invasions in changing environments.},
+	language = {en},
+	number = {3},
+	urldate = {2020-10-10},
+	journal = {BioInvasions Records},
+	author = {Whalen, Matthew and Millard-Martin, Ben and Cox, Kieran and Lemay, Matthew and Paulay, Gustav},
+	year = {2020},
+	pages = {538--548},
+}

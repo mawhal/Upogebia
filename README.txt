@@ -4,7 +4,7 @@ The associated paper describing these data and their implications can be found a
 
 The code for analyzing these data can be found at https://github.com/mawhal/Upogebia
 
-The core data for this project are located in folders 201808_Kieran+Ben/ and 201901_Ben+Matt_Pruth/
-They contain raw data from surveys conducted in Pruth Bay, Calvert Island, British Columbia.
+The raw data for this project are located in folders 201808_Kieran+Ben/ and 201901_Ben+Matt_Pruth/
+They contain raw data (and original datasheet, where available) from surveys conducted in Pruth Bay, Calvert Island, British Columbia.
 
 Other data include maps, photographs, museum records, and code for reproducing analyses and figures in the paper.

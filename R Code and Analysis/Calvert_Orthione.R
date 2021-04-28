@@ -98,6 +98,8 @@ calvert <- d[d$location=="Calvert Island",]
 # rename Shellfish farms and Reference sites
 d$site.type[ d$site.type=="Shellfish Farm"] <- "Shellfish farm"
 d$site.type[ d$site.type=="Reference Site"] <- "No aquaculture"
+
+
 ## ----------------------------------------------------------------------------------------------------------------------
 
 
@@ -113,9 +115,16 @@ with( calvert, table( len.cara, pf) )
 with( d4, table( len.cara, pf) )
 # what are the smallest parasitized hosts at each location, in each survey?
 d %>% group_by(location) %>% mutate( len.min = min( len.cara[pf==1], na.rm=T ) )
+
+# write to disk
+write_csv( d, "../data/tidy/Hakai_Orthione_Central_BC_2018.csv" )
+
 d <- d %>% group_by(site) %>% mutate( len.min = min( len.cara[pf==1], na.rm=T ) )
 d$len.min[ d$len.min > 12 ] <- 12
 
+
+
+           
 #
 ## -------------------
 # Table 1 - sampling dates, location, prevalence
