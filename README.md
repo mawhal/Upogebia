@@ -1,7 +1,9 @@
-# Data on invasion of Calvert Island by *Orthione griffenis*
+# Data documenting invasion of Calvert Island by *Orthione griffenis*
 This document describes the data associated with surveys of the blue mud shrimp (*Upogebia pugettensis* Dana) and the invasive parasite it hosts, *Orthione griffenis* Markham, on Calvert Island in 2018 and 2019.
 
-*Orthione griffenis* is a marine isopod that parasitizes mud shrimp (genus *Upogebia*). It was seen in Central British Columbia, Canada, for the first time in 2017 during the Hakai-MarineGEO BioBlitz on Calvert Island. The data and analysis herein document the first observations of parasite prevalence north of Vancouver Island. 
+*Orthione griffenis* is a marine isopod that parasitizes mud shrimp (genus *Upogebia*). http://www.marinespecies.org/aphia.php?p=taxdetails&id=261683 
+It was seen in Central British Columbia, Canada, for the first time in 2017 during the Hakai-MarineGEO BioBlitz on Calvert Island. The data and analysis herein document the first observations of parasite prevalence north of Vancouver Island. 
+![Orthione and Upogebia](https://scx2.b-cdn.net/gfx/news/2020/1-invasiveshri.jpg)
 
 # Contents
 #### thumbnail image

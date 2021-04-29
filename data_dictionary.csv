@@ -1,1 +1,14 @@
-variable,variable name,measurement unit,allowed values,variable definition,synonyms,longer description
+variable,variable name,measurement unit,allowed values,variable definition
+Site,site,text string,any text string,A name given the specific location of each sampling site
+Date,date,date,[month]/[day]/[year],date of field sampling
+Host Total Length,len.total,mm,continuous positive,total length of host from tip of rostrum to end of tail
+Parasite Sex,parasite.sex,categorical factor,"Female, Both, None",sex of parasites in host
+Location,location,binary factor,"Calvert Island, Baynes Sound",a name given to the broader region of study
+Site Type,site.type,binary factor,"Shellfish farm, No aquaculture",identifier of the presence/absence of aquaculture activities in the area
+Field Method,method,text string,any text string,how we hosts sampled from the environment
+Host Carapace Length,len.cara,mm,continuous positive,length of host carapace from tip of rostrum to the edge of the carapace excluding posterior projecting hairs
+Parasite Female,pf,binary factor,"0, 1",number of female parasites
+Parasite Male,pm,binary factor,"0, 1",number of male parasites
+Host Sex,sex,binary factor,"male, female",sex of the host
+Workspace for Measuring Host and Parasite,workspace,binary factor,"field, lab",location where host and parasites were measured
+Parasite Category,parasite.category,categorical factor,"0, 1, 2",total number of parasites with the host
