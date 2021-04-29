@@ -17,7 +17,8 @@ The associated paper describing these data and their implications can be found a
 the full citation, including bibtex format can be found in `paper_citation.txt`
 
 ### code
-The code for analyzing these data can be found at **https://github.com/mawhal/Upogebia (replace with Zenodo DOI)**
+The code for analyzing these data can be found at 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4726401.svg)](https://doi.org/10.5281/zenodo.4726401)
 
 Code for tidying the data and reproducing analyses and figures in the paper can be found in the folder `R/`
 
