@@ -7,7 +7,7 @@ It was seen in Central British Columbia, Canada, for the first time in 2017 duri
 
 # Contents
 
-### paper and citation
+### publication
 ###### **Poleward range expansion of invasive bopyrid isopod, *Orthione griffenis* Markham, 2004, confirmed by establishment in Central British Columbia, Canada**
 - The paper describing these data and their implications can be found at https://doi.org/10.3391/bir.2020.9.3.09
 - the full citation, including bibtex format can be found in `paper_citation.txt`
@@ -19,10 +19,11 @@ The code for analyzing these data can be found at
 Code for tidying the data and reproducing analyses and figures in the paper can be found in the folder `R/`
 
 ### data
-The raw data for this project are located in the folder `data/raw/`
-They contain raw data (and original datasheet, where available) from surveys conducted in Pruth Bay, Calvert Island, British Columbia.
-
-Tidied data are located in the folder `data/tidy/` and combine data from targeted surveys on Calvert Island and ecolgoical surveys on Vancouver Island (Baynes Sound)
+- Raw and tidied data related to the publication can be found as a Hakai data package: https://doi.org/10.21966/kddh-gj22
+  - raw data are located in the folder `data/raw/`
+    - They contain raw data (and original datasheet, where available) from surveys conducted in Pruth Bay, Calvert Island, British Columbia.
+  - tidied data are located in the folder `data/tidy/` 
+    - this dataset combines data from targeted surveys on Calvert Island and ecological surveys on Vancouver Island (Baynes Sound)
 
 ### data dictionary
 a spreadsheet `data_dictionary.csv` is included that contains information about the column headings in the tidied data `data/tidy/Hakai_Orthione_Central_BC_2018.csv`
