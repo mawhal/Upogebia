@@ -6,15 +6,11 @@ It was seen in Central British Columbia, Canada, for the first time in 2017 duri
 ![Orthione and Upogebia](https://scx2.b-cdn.net/gfx/news/2020/1-invasiveshri.jpg)
 
 # Contents
-#### thumbnail image
-`thumbnail.png` shows the invasive parasite Orthione griffenis and the study area on Calvert Island
 
-### link to the paper
-##### paper title: 
-###### Poleward range expansion of invasive bopyrid isopod, *Orthione griffenis* Markham, 2004, confirmed by establishment in Central British Columbia, Canada
-The associated paper describing these data and their implications can be found at https://doi.org/10.3391/bir.2020.9.3.09
-
-the full citation, including bibtex format can be found in `paper_citation.txt`
+### paper and citation
+###### **Poleward range expansion of invasive bopyrid isopod, *Orthione griffenis* Markham, 2004, confirmed by establishment in Central British Columbia, Canada**
+- The paper describing these data and their implications can be found at https://doi.org/10.3391/bir.2020.9.3.09
+- the full citation, including bibtex format can be found in `paper_citation.txt`
 
 ### code
 The code for analyzing these data can be found at 
@@ -28,9 +24,11 @@ They contain raw data (and original datasheet, where available) from surveys con
 
 Tidied data are located in the folder `data/tidy/` and combine data from targeted surveys on Calvert Island and ecolgoical surveys on Vancouver Island (Baynes Sound)
 
-
 ### data dictionary
 a spreadsheet `data_dictionary.csv` is included that contains information about the column headings in the tidied data `data/tidy/Hakai_Orthione_Central_BC_2018.csv`
+
+### thumbnail image
+`thumbnail.png` shows the invasive parasite Orthione griffenis and the study area on Calvert Island
 
 ### extras
 Other data include maps, photographs, museum records are available in the **Hakai data package (insert DOI for data package)** in the folder `ancillary_data/`
