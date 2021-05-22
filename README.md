@@ -21,9 +21,9 @@ Code for tidying the data and reproducing analyses and figures in the paper can 
 ### data
 - Raw and tidied data related to the publication can be found as a Hakai data package: https://doi.org/10.21966/kddh-gj22
   - raw data are located in the folder `data/raw/`
-    - They contain raw data (and original datasheet, where available) from surveys conducted in Pruth Bay, Calvert Island, British Columbia.
+    - raw data (and original datasheets, where available) from surveys conducted in Pruth Bay, Calvert Island, British Columbia.
   - tidied data are located in the folder `data/tidy/` 
-    - this dataset combines data from targeted surveys on Calvert Island and ecological surveys on Vancouver Island (Baynes Sound)
+    - combined data from targeted surveys on Calvert Island and ecological surveys on Vancouver Island (Baynes Sound)
 
 ### data dictionary
 a spreadsheet `data_dictionary.csv` is included that contains information about the column headings in the tidied data `data/tidy/Hakai_Orthione_Central_BC_2018.csv`
